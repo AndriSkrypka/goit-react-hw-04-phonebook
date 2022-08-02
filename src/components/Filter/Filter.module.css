@@ -1,0 +1,19 @@
+.lable {
+    font-size: 20px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    margin-left: 30px;
+}
+
+.input {
+    margin-top: 10px;
+
+    width: 300px;
+    height: 30px;
+    font-size: 15px;
+
+    border: 2px solid rgba(92, 0, 0, 0.43);
+    background-color: rgba(109, 109, 109, 0.154);
+}

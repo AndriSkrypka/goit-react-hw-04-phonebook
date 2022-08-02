@@ -1,0 +1,8 @@
+.list {
+    max-width: 500px;
+    margin-top: 20px;
+    padding: 30px;
+
+    border: 2px solid rgba(92, 0, 0, 0.43);
+    background-color: rgba(109, 109, 109, 0.154);
+}

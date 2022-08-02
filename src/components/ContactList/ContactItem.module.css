@@ -1,0 +1,37 @@
+.buttons {
+    width: 80px;
+    height: 30px;
+    padding: 2px 5px;
+    font-size: 20px;
+    font-weight: 500;
+    border-radius: 15px;
+    cursor: pointer;
+
+    background-color: rgba(216, 216, 218, 0.588);
+    border: 2px solid rgba(0, 0, 0, 0.588);
+
+}
+
+.li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 780px;
+    margin-bottom: 10px;
+}
+
+.names {
+    font-size: 20px;
+    margin-right: 15px;
+    font-weight: 700;
+    max-width: 500px;
+}
+
+
+.phones {
+    max-width: 700px;
+    font-size: 20px;
+    font-weight: 700;
+    margin-right: 20px;
+
+}

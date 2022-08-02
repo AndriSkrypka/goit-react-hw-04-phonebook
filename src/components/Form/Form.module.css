@@ -1,0 +1,45 @@
+form {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: 700;
+    color: rgb(2, 2, 2);
+
+}
+
+.button {
+    width: 150px;
+    font-weight: 700;
+    height: 40px;
+    padding: 1px 5px;
+    font-size: 17px;
+    cursor: pointer;
+
+    border: 2px solid rgba(0, 0, 0, 0.588);
+    border-radius: 10px;
+}
+
+.label:not(:last-child) {
+    margin-bottom: 15px;
+}
+
+.input1 {
+    width: 200px;
+    margin-left: 30px;
+    height: 25px;
+    font-size: 15px;
+
+    border: 2px solid rgba(92, 0, 0, 0.43);
+    background-color: rgba(109, 109, 109, 0.154);
+}
+
+.input2 {
+    margin-left: 10px;
+    width: 200px;
+    height: 25px;
+    font-size: 15px;
+
+    border: 2px solid rgba(105, 2, 2, 0.43);
+    background-color: rgba(109, 109, 109, 0.154);
+}
