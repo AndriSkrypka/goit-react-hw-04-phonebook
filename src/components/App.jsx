@@ -1,40 +1,31 @@
-import { Component } from 'react';
+// Новий код на хуках
+
+import { useState, useEffect } from 'react';
 import { Form } from './Form/Form';
-import Section from './Section/Section';
-import ContactList from './ContactList/ContactList';
-import Filter from './Filter/Filter';
+import { Section } from './Section/Section';
+import { ContactList } from './ContactList/ContactList';
+import { Filter } from './Filter/Filter';
 
-const contactKey = '';
-export class App extends Component {
-  state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
-    filter: '',
-    name: '',
-    number: '',
-  };
+export const App = () => {
+  const [contacts, setContacts] = useState(() => {
+    return (
+      JSON.parse(localStorage.getItem('contacts')) ?? [
+        { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+        { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+        { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+        { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+      ]
+    );
+  });
+  
+  const [filter, setFilter] = useState('');
+   
+    useEffect(
+    () => localStorage.setItem('contacts', JSON.stringify(contacts)),
+    [contacts]
+  );
 
-  componentDidMount() {
-    if (localStorage.getItem(contactKey)) {
-      const savedContacts = JSON.parse(localStorage.getItem(contactKey));
-      this.setState({ contacts: savedContacts });
-    }
-  }
-
-  componentDidUpdate(prevProp, prevState) {
-    const { contacts } = this.state;
-
-    if (prevState.contacts.length !== contacts.length) {
-      localStorage.setItem(contactKey, JSON.stringify(contacts));
-    }
-  }
-
-  addUserData = contact => {
-    const { contacts } = this.state;
+  const addUserData = contact => {
     if (
       contacts.some(
         obj => obj.name.toLowerCase() === contact.name.toLowerCase()
@@ -44,19 +35,15 @@ export class App extends Component {
     } else if (contacts.some(obj => obj.number === contact.number)) {
       alert(`Sorry, ${contact.number} is already in contacts`);
     } else {
-      this.setState(prevState => ({
-        contacts: [...prevState.contacts, contact],
-      }));
+      setContacts(prevState => [...prevState, contact]);
     }
   };
 
-  handlerFilter = ({ target: { value } }) => {
-    this.setState({ filter: value });
+  const handlerFilter = ({ target: { value } }) => {
+    setFilter(value);
   };
 
-  filterContacts = () => {
-    const { contacts, filter } = this.state;
-
+  const filterContacts = () => {
     return contacts.filter(
       contact =>
         contact.name.toLowerCase().includes(filter.toLowerCase()) ||
@@ -64,30 +51,120 @@ export class App extends Component {
     );
   };
 
-  onDelete = id => {
-    this.setState({
-      contacts: this.state.contacts.filter(contact => id !== contact.id),
-    });
+  const onDelete = id => {
+    setContacts(prev => prev.filter(contact => id !== contact.id));
   };
 
-  render() {
-    return (
-      <div>
-        <Section title="Phonebook">
-          <Form addContact={this.addUserData}> </Form>
-        </Section>
+  return (
+    <>
+      <Section title="Phonebook">
+        <Form addContact={addUserData}> </Form>
+      </Section>
 
-        <Section title="Contacts">
-          <Filter
-            filter={this.state.filter}
-            handlerFilter={this.handlerFilter}
-          />
-          <ContactList
-            contacts={this.filterContacts()}
-            onDelete={this.onDelete}
-          />
-        </Section>
-      </div>
-    );
-  }
-}
+      <Section title="Contacts">
+        <Filter filter={filter} handlerFilter={handlerFilter} />
+        <ContactList
+          contacts={filterContacts()}
+          deleteContact={onDelete}
+        />
+      </Section>
+    </>
+  );
+};
+
+
+//Старий код на компонентах
+
+// import { Component } from 'react';
+// import { Form } from './Form/Form';
+// import Section from './Section/Section';
+// import ContactList from './ContactList/ContactList';
+// import Filter from './Filter/Filter';
+
+// const contactKey = '';
+// export class App extends Component {
+//   state = {
+//     contacts: [
+//       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+//       { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+//       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+//       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+//     ],
+//     filter: '',
+//     name: '',
+//     number: '',
+//   };
+
+//   componentDidMount() {
+//     if (localStorage.getItem(contactKey)) {
+//       const savedContacts = JSON.parse(localStorage.getItem(contactKey));
+//       this.setState({ contacts: savedContacts });
+//     }
+//   }
+
+//   componentDidUpdate(prevProp, prevState) {
+//     const { contacts } = this.state;
+
+//     if (prevState.contacts.length !== contacts.length) {
+//       localStorage.setItem(contactKey, JSON.stringify(contacts));
+//     }
+//   }
+
+//   addUserData = contact => {
+//     const { contacts } = this.state;
+//     if (
+//       contacts.some(
+//         obj => obj.name.toLowerCase() === contact.name.toLowerCase()
+//       )
+//     ) {
+//       alert(`Sorry, ${contact.name} is already in contacts`);
+//     } else if (contacts.some(obj => obj.number === contact.number)) {
+//       alert(`Sorry, ${contact.number} is already in contacts`);
+//     } else {
+//       this.setState(prevState => ({
+//         contacts: [...prevState.contacts, contact],
+//       }));
+//     }
+//   };
+
+//   handlerFilter = ({ target: { value } }) => {
+//     this.setState({ filter: value });
+//   };
+
+//   filterContacts = () => {
+//     const { contacts, filter } = this.state;
+
+//     return contacts.filter(
+//       contact =>
+//         contact.name.toLowerCase().includes(filter.toLowerCase()) ||
+//         contact.number.includes(filter)
+//     );
+//   };
+
+//   onDelete = id => {
+//     this.setState({
+//       contacts: this.state.contacts.filter(contact => id !== contact.id),
+//     });
+//   };
+
+//   render() {
+//     return (
+//       <div>
+//         <Section title="Phonebook">
+//           <Form addContact={this.addUserData}> </Form>
+//         </Section>
+
+//         <Section title="Contacts">
+//           <Filter
+//             filter={this.state.filter}
+//             handlerFilter={this.handlerFilter}
+//           />
+//           <ContactList
+//             contacts={this.filterContacts()}
+//             onDelete={this.onDelete}
+//           />
+//         </Section>
+//       </div>
+//     );
+//   }
+// }
